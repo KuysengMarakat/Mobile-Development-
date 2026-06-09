@@ -1,89 +1,63 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyButtonApp());
-}
 
-class MyButtonApp extends StatelessWidget {
-  const MyButtonApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: ButtonScreen(),
-    );
-  }
-}
-
-class ButtonScreen extends StatelessWidget {
-  const ButtonScreen({super.key});
+class SelectedButton extends StatefulWidget {
+  const SelectedButton({super.key, required this.isSelected});
+  
+  final bool isSelected;
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: SelectableButton(),
-      ),
-    );
-  }
+  State<SelectedButton> createState() => _SelectedButtonState();
 }
 
-class SelectableButton extends StatefulWidget {
-  const SelectableButton({super.key});
-
-  @override
-  State<SelectableButton> createState() {
-    return _SelectableButtonState();
-  }
-}
-
-class _SelectableButtonState extends State<SelectableButton> {
-  bool selected = false;
-
-  String get buttonText {
-    if (selected) {
-      return "Selected";
-    } else {
-      return "Not selected";
-    }
-  }
-
-  Color get buttonColor {
-    if (selected) {
-      return Colors.blue;
-    } else {
-      return Colors.blue.shade50;
-    }
-  }
-
-  Color get textColor {
-    if (selected) {
-      return Colors.white;
-    } else {
-      return Colors.black;
-    }
-  }
+class _SelectedButtonState extends State<SelectedButton> {
+  bool isSelected = false; 
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 400,
-      height: 100,
-      child: ElevatedButton(
-        onPressed: () {
-          setState(() {
-            selected = !selected;
-          });
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: buttonColor,
-          foregroundColor: textColor,
+                width: 400,
+                height: 100,
+                child: ElevatedButton(
+                    onPressed: () {
+                      setState((){
+                        isSelected = !isSelected;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isSelected ? Colors.blue : Colors.grey,
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.all(20),
+                    ),
+                    child: Center(
+                      child: Text(
+                        isSelected ? 'Selected' : 'Not Selected',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )),
+              );
+  }
+}
+void main() {
+    runApp(MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text("Custom buttons"),
         ),
-        child: Text(
-          buttonText,
-          style: const TextStyle(fontSize: 28),
+        body: Center(
+          child: Column(
+            children: [
+              SizedBox(height: 50,),
+              SelectedButton(isSelected: false),
+              SizedBox(height: 20,),
+              SelectedButton(isSelected: true),
+              SizedBox(height: 20,),
+              SelectedButton(isSelected: false),
+
+            ],
+          ),
         ),
       ),
-    );
-  }
+    )
+);
 }

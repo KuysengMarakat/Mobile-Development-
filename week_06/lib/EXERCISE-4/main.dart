@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:FLUTTER/week_06/EXERCISE-4/model/Joke_data_model.dart';
+import 'package:myapp_flutter/week_06/EXERCISE-4/model/Joke_data_model.dart';
 
 Color appColor = Colors.green[300] as Color;
 

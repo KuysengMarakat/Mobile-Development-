@@ -23,11 +23,9 @@ class _GroceryScreenState extends State<GroceryScreen> {
         return const GroceryForm();
       },
     );
-
     if (newItem == null) {
       return;
     }
-
     final nextId = String.fromCharCode(97 + _groceryItems.length);
 
     final itemWithId = GroceryItem(

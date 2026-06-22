@@ -17,7 +17,6 @@ class GroceryForm extends StatefulWidget {
 }
 
 class _GroceryFormState extends State<GroceryForm> {
-  final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
   final _quantityController = TextEditingController(text: '0');
@@ -35,12 +34,7 @@ class _GroceryFormState extends State<GroceryForm> {
   }
 
   void _addItem() {
-    final isValid = _formKey.currentState!.validate();
-
-    if (!isValid) {
-      return;
-    }
-
+    
     final newItem = GroceryItem(
       id: '',
       name: _nameController.text,
@@ -63,7 +57,6 @@ class _GroceryFormState extends State<GroceryForm> {
         top: 16,
       ),
       child: Form(
-        key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -96,7 +89,6 @@ class _GroceryFormState extends State<GroceryForm> {
 
             TextFormField(
               controller: _quantityController,
-              keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                 labelText: 'Quantity',
               ),

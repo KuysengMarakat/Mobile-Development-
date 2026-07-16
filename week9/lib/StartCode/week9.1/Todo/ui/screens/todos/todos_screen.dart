@@ -28,7 +28,7 @@ class _TodosScreenState extends State<TodosScreen> {
   void _fetchTodos() async {
     TodoRepository repository = TodoRepository.global;
 
-    //  TODO
+    // TODO
     // Fetch the list of todos from the repo
     // Handle the success, loading and error cases (catch exception)
     // Update the widget state (asyncData)

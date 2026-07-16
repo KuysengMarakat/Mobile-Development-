@@ -1,4 +1,5 @@
 import 'dart:convert' as convert;
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -18,9 +19,7 @@ class AsyncData<V> {
   final AsyncState state;
 
   AsyncData.loading() : value = null, error = null, state = AsyncState.loading;
-
   AsyncData.success(this.value) : error = null, state = AsyncState.success;
-
   AsyncData.error(this.error) : value = null, state = AsyncState.error;
 }
 
@@ -41,14 +40,16 @@ class _MyButtonState extends State<MyButton> {
   bool isSelected = false;
 
   AsyncData<ButtonStatus> data = AsyncData.loading();
-
   final String url =
       "https://mobile-fc8af-default-rtdb.asia-southeast1.firebasedatabase.app/.json";
 
-  void selected() {
+  void selected() async {
+    bool newSelected = !isSelected;
+
     setState(() {
-      isSelected = !isSelected;
+      isSelected = newSelected;
     });
+    await updateButtonSelected(newSelected);
   }
 
   @override
@@ -78,13 +79,18 @@ class _MyButtonState extends State<MyButton> {
 
     http.Response response = await http.get(uri);
 
-    Map<String, dynamic> json =
-        convert.jsonDecode(response.body) as Map<String, dynamic>;
+    Map<String, dynamic> json = convert.jsonDecode(response.body);
 
-    String title = json['title'] as String;
-    bool selected = json['selected'] as bool;
+    String title = json["title"] as String;
+    bool selected = json["selected"] as bool;
 
     return ButtonStatus(title: title, selected: selected);
+  }
+
+  Future<void> updateButtonSelected(bool selected) async {
+    Uri uri = Uri.parse(url);
+    
+    await http.patch(uri, body: jsonEncode({"selected" : selected}));
   }
 
   @override
@@ -104,11 +110,8 @@ class _MyButtonState extends State<MyButton> {
         child: Text(isSelected ? "Selected" : "Not Selected"),
       );
     }
-    return Scaffold(
-        body: Center(
-          child: content,
-        ),
-      );
+
+    return Scaffold(body: Center(child: content));
   }
 }
 

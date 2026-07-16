@@ -1,7 +1,9 @@
+import 'dart:convert' as convert;
+
 import '../../models/todo.dart';
 
 class TodoRepository {
-  static final global = TodoRepository();   // unique instance
+  static final global = TodoRepository(); // unique instance
 
   final List<Todo> fakeTodos = [
     Todo(id: '1', title: 'Buy groceries', completed: false),
@@ -11,24 +13,31 @@ class TodoRepository {
     Todo(id: '5', title: 'Go for a 30-minute walk', completed: false),
   ];
 
-  Future<List<Todo>> getTodos() async {
+  final String url =
+      "https://mobile-fc8af-default-rtdb.asia-southeast1.firebasedatabase.app/.json";
+
+  Future<List<Todo>> getTodos(dynamic response) async {
+    Uri uri = Uri.parse(url);
+
+    Map<String, dynamic> json = convert.jsonDecode(response.body);
+
+    
+
 
     //  TODO
     //  Adapt the code to handle firebase data fetch
     //
- 
+
     return Future.delayed(Duration(seconds: 1), () {
       return fakeTodos;
 
       //  TODO
       // Ensure the message is displayed on the UI if error occured
       //throw RepositoryException("No wifi !");
-
     });
   }
 
   Future<void> updateCompleted(String todoId, bool completed) async {
-    
     //  TODO
     //  Adapt the code to handle firebase data fetch
     //
